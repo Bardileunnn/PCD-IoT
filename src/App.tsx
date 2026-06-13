@@ -1,27 +1,7 @@
- // src/App.tsx
 import { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from "wouter";
-import Home from "./pages/Home";
-import AuthPage from "./pages/auth";
 import Dashboard from "./pages/dashboard";
-import { getCurrentUser } from "./lib/auth";
 import MonochromeLoader from './components/ui/LoadingScreen';
-
-// Protected Route Component
-function ProtectedRoute({ component: Component, ...rest }: any) {
-  // Pastikan hanya dijalankan di browser
-  if (typeof window === 'undefined') {
-    return null;
-  }
-  
-  const currentUser = getCurrentUser();
-  
-  if (!currentUser) {
-    return <Redirect to="/auth" />;
-  }
-  
-  return <Component {...rest} />;
-}
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -85,18 +65,15 @@ function App() {
       
       {!isLoading && (
         <Switch>
-          {/* Home sebagai halaman utama */}
-          <Route path="/" component={Home} />
+          {/* Dashboard sebagai halaman utama */}
+          <Route path="/" component={Dashboard} />
           
-          {/* Auth page - login page dengan design glassmorphism */}
-          <Route path="/auth" component={AuthPage} />
-          
-          {/* Protected Dashboard */}
+          {/* Redirect /dashboard ke / */}
           <Route path="/dashboard">
-            {(params) => <ProtectedRoute component={Dashboard} {...params} />}
+            {() => <Redirect to="/" />}
           </Route>
           
-          {/* Fallback - redirect ke home */}
+          {/* Fallback - redirect ke / */}
           <Route>
             {() => <Redirect to="/" />}
           </Route>

@@ -7,7 +7,6 @@ import { StatGauge } from "@/components/ui/stat-gauge";
 import { LogOut, Power, Activity, User, Cpu, Zap, Thermometer, Fan, Wifi, WifiOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { logout, getCurrentUser } from "@/lib/auth";
 import { mqttClient, MQTT_TOPICS, useMqttStatus } from "@/lib/mqttClient";
 
 export default function Dashboard() {
@@ -15,7 +14,6 @@ export default function Dashboard() {
   const [agvStatus, setAgvStatus] = useState<"STOPPED" | "RUNNING">("STOPPED");
   const [battery, setBattery] = useState(0);
   const [load, setLoad] = useState(0);
-  const [operatorName, setOperatorName] = useState("OP-8821");
 
   // ESP Monitoring States
   const [temperature, setTemperature] = useState(0);
@@ -26,15 +24,6 @@ export default function Dashboard() {
   const mqttConnected = useMqttStatus();
 
   const [, setLocation] = useLocation();
-
-  useEffect(() => {
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-      setOperatorName(currentUser);
-    } else {
-      setLocation("/Home");
-    }
-  }, [setLocation]);
 
   // MQTT Message Handler — topic pcd/monitoring/*
   useEffect(() => {
@@ -111,7 +100,7 @@ export default function Dashboard() {
         </div>
 
         <div className="flex items-center gap-8">
-          <div className="hidden lg:flex gap-6 border-x border-white/10 px-8">
+          <div className="hidden lg:flex gap-6 border-l border-white/10 pl-8">
             {/* MQTT Connection Status */}
             <div className="text-right">
               <p className="text-[10px] text-white/40 font-mono uppercase">MQTT</p>
@@ -137,23 +126,7 @@ export default function Dashboard() {
                 ))}
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-[10px] text-white/40 font-mono uppercase">Operator</p>
-              <p className="text-sm font-bold text-white flex items-center gap-2 justify-end">
-                <User className="w-3 h-3 text-neon-green" /> {operatorName}
-              </p>
-            </div>
           </div>
-
-          <button
-            onClick={() => {
-              logout();
-              setLocation("/Home");
-            }}
-            className="w-10 h-10 border border-white/10 flex items-center justify-center hover:bg-neon-red/20 hover:border-neon-red/50 transition-all text-white/50 hover:text-neon-red cursor-pointer"
-          >
-            <LogOut className="w-5 h-5" />
-          </button>
         </div>
       </GlassCard>
 
