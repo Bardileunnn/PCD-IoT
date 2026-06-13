@@ -55,7 +55,7 @@ export default function AuthPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 max-w-5xl w-full gap-8">
         <motion.div initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="p-8">
-          <h1 className="text-4xl font-bold text-white uppercase">AGV <span className="text-neon-blue">LINE FOLLOWER</span></h1>
+          <h1 className="text-4xl font-bold text-white uppercase">EmbedPower <span className="text-neon-blue">DuoRail (EPDR-533)</span></h1>
           <p className="text-white/50 font-mono mt-2 tracking-widest uppercase">Berbasis IoT</p>
         </motion.div>
 

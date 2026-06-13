@@ -279,16 +279,16 @@ export default function Home() {
               variants={textVariants}
               className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] text-white"
             >
-              AUTO<br/>
+              EmbedPower<br/>
               <span className="relative inline-block">
-                MATED
+                DuoRail
                 {/* Glitch layers */}
                 <motion.span 
                   className="absolute top-0 left-0 -ml-1 text-[#ff00ff] opacity-0 mix-blend-screen"
                   animate={isGlitching ? { x: [-2, 2, -1, 0], opacity: [0, 0.8, 0] } : {}}
                   transition={{ duration: 0.15 }}
                 >
-                  MATED
+                  DuoRail
                 </motion.span>
               </span>
             </motion.h1>
@@ -300,7 +300,7 @@ export default function Home() {
               variants={textVariants}
               className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] text-transparent stroke-text mt-2"
             >
-              GUIDED
+              (EPDR-533)
             </motion.h1>
           </div>
 
