@@ -3,7 +3,7 @@
 
 import mqtt from "mqtt";
 
-const BROKER = "wss://broker.hivemq.com:8884/mqtt";
+const BROKER = "wss://test.mosquitto.org:8081/mqtt";
 const client = mqtt.connect(BROKER, {
   clientId: `dummy_publisher_${Math.random().toString(16).slice(2, 8)}`,
   clean: true,

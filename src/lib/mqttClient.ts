@@ -3,7 +3,7 @@ import mqtt from "mqtt";
 import { useState, useEffect } from "react";
 
 // Konfigurasi MQTT
-const MQTT_BROKER = "wss://broker.hivemq.com:8884/mqtt";
+const MQTT_BROKER = "wss://test.mosquitto.org:8081/mqtt";
 const MQTT_OPTIONS: mqtt.IClientOptions = {
   clientId: `agv_dashboard_${Math.random().toString(16).slice(2, 8)}`,
   clean: true,
