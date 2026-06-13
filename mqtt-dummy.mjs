@@ -3,9 +3,10 @@
 
 import mqtt from "mqtt";
 
-const BROKER = "wss://broker.hivemq.com:8884/mqtt";
+const BROKER = "wss://mqtt.flespi.io:443";
 const client = mqtt.connect(BROKER, {
   clientId: `dummy_publisher_${Math.random().toString(16).slice(2, 8)}`,
+  username: "WwzfsYSW5Z3fJk235kiZqtaY3cbYaGJQZXfUDkwcDdh2MmgOo9wysfQg307eGBoy", // Flespi Token
   clean: true,
 });
 

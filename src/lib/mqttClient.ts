@@ -3,9 +3,10 @@ import mqtt from "mqtt";
 import { useState, useEffect } from "react";
 
 // Konfigurasi MQTT
-const MQTT_BROKER = "wss://broker.hivemq.com:8084/mqtt";
+const MQTT_BROKER = "wss://mqtt.flespi.io:443";
 const MQTT_OPTIONS: mqtt.IClientOptions = {
   clientId: `agv_dashboard_${Math.random().toString(16).slice(2, 8)}`,
+  username: "WwzfsYSW5Z3fJk235kiZqtaY3cbYaGJQZXfUDkwcDdh2MmgOo9wysfQg307eGBoy", // Flespi Token
   clean: true,
   connectTimeout: 4000,
   reconnectPeriod: 1000,
