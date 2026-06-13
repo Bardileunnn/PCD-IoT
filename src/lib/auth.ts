@@ -25,22 +25,12 @@ export function getUsers(): User[] {
  * Returns true if credentials are valid, false otherwise
  */
 export function login(username: string, password: string): { success: boolean; message: string } {
-  // #region agent log
-  fetch('http://127.0.0.1:7244/ingest/d7de010a-ed7c-4a1b-a47c-6f7bb4b59610',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'auth.ts:27',message:'login called',data:{username,hasPassword:!!password},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-  // #endregion
   if (!username || !password) {
     return { success: false, message: "Username dan password harus diisi" };
   }
 
-  // #region agent log
-  fetch('http://127.0.0.1:7244/ingest/d7de010a-ed7c-4a1b-a47c-6f7bb4b59610',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'auth.ts:34',message:'Searching user',data:{userCount:FIXED_USERS.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-  // #endregion
-  
   // Check if user exists and password matches
   const user = FIXED_USERS.find(u => u.username === username);
-  // #region agent log
-  fetch('http://127.0.0.1:7244/ingest/d7de010a-ed7c-4a1b-a47c-6f7bb4b59610',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'auth.ts:39',message:'User found',data:{userFound:!!user,passwordMatch:user?.password===password},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-  // #endregion
   if (!user) {
     return { success: false, message: "Username tidak ditemukan" };
   }
@@ -51,9 +41,6 @@ export function login(username: string, password: string): { success: boolean; m
 
   // Save current user
   localStorage.setItem(CURRENT_USER_KEY, username);
-  // #region agent log
-  fetch('http://127.0.0.1:7244/ingest/d7de010a-ed7c-4a1b-a47c-6f7bb4b59610',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'auth.ts:52',message:'WELCOME ',data:{username},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-  // #endregion
 
   return { success: true, message: "WELCOME" };
 }

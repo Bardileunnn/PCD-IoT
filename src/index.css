@@ -7,6 +7,8 @@
   --color-neon-blue: #00f3ff;
   --color-neon-green: #00ff9d;
   --color-neon-red: #ff0055;
+  --color-neon-orange: #ff9900;
+  --color-neon-yellow: #ffdd00;
 }
 
 @layer base {
