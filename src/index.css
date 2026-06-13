@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-neon-blue: #00f3ff;
+  --color-neon-green: #00ff9d;
+  --color-neon-red: #ff0055;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: black;
+    color: white;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .glow-text {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  }
+}

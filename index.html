@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>AGV Line Follower System</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Loading Screen Transition */
+        #loading-screen {
+            transition: opacity 0.5s ease;
+        }
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #root {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #root.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="m-0 p-0">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed top-0 left-0 w-full h-full bg-[#000000] flex items-center justify-center z-[9999]">
+        <div 
+            id="percent" 
+            class="font-['Press_Start_2P'] text-6xl md:text-5xl max-sm:text-4xl text-white"
+            style="text-shadow: 2px 2px 0 #333333;"
+        >
+            0%
+        </div>
+    </div>
+    
+    <!-- Main App -->
+    <div id="root"></div>
+    
+    <script>
+        // Loading animation
+        let progress = 0;
+        const loadingScreen = document.getElementById('loading-screen');
+        const rootElement = document.getElementById('root');
+        const percentElement = document.getElementById('percent');
+        
+        const interval = setInterval(() => {
+            progress += Math.random() * 4 + 1;
+            
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                
+                // Hide loading after 100%
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    rootElement.classList.add('visible');
+                }, 300);
+            }
+            percentElement.textContent = Math.round(progress) + '%';
+        }, 50);
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
