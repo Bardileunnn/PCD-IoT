@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
 import { Shell } from "@/components/layout/shell";
 import { GlassCard } from "@/components/ui/glass-card";
 import { NeonButton } from "@/components/ui/neon-button";
 import { StatGauge } from "@/components/ui/stat-gauge";
-import { LogOut, Power, Activity, User, Cpu, Zap, Thermometer, Fan, Wifi, WifiOff } from "lucide-react";
+import { Power, Activity, Cpu, Zap, Thermometer, Fan, Wifi, WifiOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { mqttClient, MQTT_TOPICS, useMqttStatus } from "@/lib/mqttClient";
@@ -22,8 +21,6 @@ export default function Dashboard() {
 
   // MQTT Connection Status (reactive)
   const mqttConnected = useMqttStatus();
-
-  const [, setLocation] = useLocation();
 
   // MQTT Message Handler — topic pcd/monitoring/*
   useEffect(() => {
@@ -211,7 +208,7 @@ export default function Dashboard() {
               </span>
             </div>
             <div className="text-[10px] font-mono text-white/40 uppercase">
-              Operator: <span className="text-neon-blue">{operatorName}</span>
+              Operator: <span className="text-neon-blue">ADMIN</span>
             </div>
           </div>
 
@@ -241,7 +238,7 @@ export default function Dashboard() {
               {!mqttConnected
                 ? "> ⚠ MQTT Disconnected. Attempting reconnection to broker.hivemq.com..."
                 : agvStatus === "RUNNING"
-                ? `> Engine initiated by ${operatorName}. Commencing line follow protocol...`
+                ? `> Engine initiated by ADMIN. Commencing line follow protocol...`
                 : "> Engine standby. Awaiting operator command."}
             </motion.span>
           </AnimatePresence>
