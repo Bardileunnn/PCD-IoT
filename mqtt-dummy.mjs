@@ -23,6 +23,17 @@ client.on("connect", () => {
   console.log("   Tekan Ctrl+C untuk berhenti.\n");
   console.log("─".repeat(50));
 
+  // Listen to engine controls from dashboard
+  client.subscribe("pcd/kontrol/engine");
+  client.on("message", (topic, message) => {
+    if (topic === "pcd/kontrol/engine") {
+      const command = message.toString();
+      if (command === "START") status = "RUNNING";
+      if (command === "STOP") status = "STOPPED";
+      console.log(`\n⚙️ Command received: ${command} -> Engine is now ${status}\n`);
+    }
+  });
+
   setInterval(() => {
     // Simulasi perubahan data sensor
     suhu = +(25 + Math.random() * 15).toFixed(1);           // 25-40 °C
@@ -40,7 +51,7 @@ client.on("connect", () => {
     client.publish("pcd/monitoring/status", status);
 
     const time = new Date().toLocaleTimeString("id-ID", { hour12: false });
-    console.log(`[${time}] Suhu: ${suhu}°C | Baterai: ${baterai}% | Beban: ${beban}KG | Kipas: ${kipas} | Charging: ${charging}`);
+    console.log(`[${time}] Suhu: ${suhu}°C | Baterai: ${baterai}% | Beban: ${beban}KG | Kipas: ${kipas} | Charging: ${charging} | Engine: ${status}`);
   }, 2000);
 });
 
