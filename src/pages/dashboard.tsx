@@ -32,10 +32,22 @@ export default function Dashboard() {
           setLoad(+v);
           break;
         case MQTT_TOPICS.BATERAI:
+          // ESP32 now publishes percentage (0-100), matching dashboard directly
           setBattery(+v);
           break;
         case MQTT_TOPICS.STATUS:
-          setAgvStatus(v === "RUNNING" ? "RUNNING" : "STOPPED");
+          // ESP32 publishes "RUNNING" / "STOPPED" as plain string
+          // Also handles JSON fallback: {"device":"online"}
+          try {
+            const json = JSON.parse(v);
+            // JSON status — ignore or handle device online
+            if (json.device === "online") {
+              // Device came online, don't change engine status
+            }
+          } catch {
+            // Plain string status: "RUNNING" or "STOPPED"
+            setAgvStatus(v === "RUNNING" ? "RUNNING" : "STOPPED");
+          }
           break;
         case MQTT_TOPICS.SUHU:
           setTemperature(+v);
@@ -44,7 +56,8 @@ export default function Dashboard() {
           setFanStatus(v === "1" || v === "ON" ? "ON" : "OFF");
           break;
         case MQTT_TOPICS.CHARGING:
-          setIsCharging(v === "1" || v === "TRUE" || v === "true");
+          // ESP32 now publishes "1" or "0"
+          setIsCharging(v === "1" || v === "TRUE" || v === "true" || v === "YES");
           break;
       }
     };

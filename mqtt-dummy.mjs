@@ -28,8 +28,8 @@ client.on("connect", () => {
   client.on("message", (topic, message) => {
     if (topic === "pcd/kontrol/engine") {
       const command = message.toString();
-      if (command === "START") status = "RUNNING";
-      if (command === "STOP") status = "STOPPED";
+      if (command === "START" || command === "ON") status = "RUNNING";
+      if (command === "STOP" || command === "OFF") status = "STOPPED";
       console.log(`\n⚙️ Command received: ${command} -> Engine is now ${status}\n`);
     }
   });
@@ -40,7 +40,7 @@ client.on("connect", () => {
     baterai = Math.max(0, Math.min(100, baterai + (Math.random() > 0.5 ? 1 : -1)));  // naik-turun
     beban = +(Math.random() * 4.5).toFixed(2);               // 0-4.5 KG
     kipas = suhu > 35 ? "ON" : "OFF";                        // kipas nyala jika suhu > 35
-    charging = baterai < 30 ? "1" : "0";                     // charging jika baterai < 30%
+    charging = baterai < 30 ? "1" : "0";                     // charging jika baterai < 30% (format: "1"/"0" matching ESP32 & dashboard)
 
     // Publish ke semua topic
     client.publish("pcd/monitoring/suhu", String(suhu));
