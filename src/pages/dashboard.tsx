@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Shell } from "@/components/layout/shell";
 import { GlassCard } from "@/components/ui/glass-card";
 import { NeonButton } from "@/components/ui/neon-button";
 import { StatGauge } from "@/components/ui/stat-gauge";
-import { Power, Activity, Cpu, Zap, Thermometer, Fan, Wifi, WifiOff } from "lucide-react";
+import { Power, Activity, Cpu, Zap, Thermometer, Fan, Wifi, WifiOff, Terminal } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { mqttClient, MQTT_TOPICS, useMqttStatus } from "@/lib/mqttClient";
@@ -18,6 +18,15 @@ export default function Dashboard() {
   const [temperature, setTemperature] = useState(0);
   const [fanStatus, setFanStatus] = useState<"ON" | "OFF">("OFF");
   const [isCharging, setIsCharging] = useState(false);
+
+  // Terminal Logs State
+  const [logs, setLogs] = useState<{ time: string; msg: string }[]>([]);
+  const logsEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll terminal
+  useEffect(() => {
+    logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [logs]);
 
   // MQTT Connection Status (reactive)
   const mqttConnected = useMqttStatus();
@@ -58,6 +67,15 @@ export default function Dashboard() {
         case MQTT_TOPICS.CHARGING:
           // ESP32 now publishes "1" or "0"
           setIsCharging(v === "1" || v === "TRUE" || v === "true" || v === "YES");
+          break;
+        case MQTT_TOPICS.LOGS:
+          setLogs((prev) => {
+            const now = new Date();
+            const time = now.toLocaleTimeString("id-ID", { hour12: false });
+            const newLogs = [...prev, { time, msg: v }];
+            // Keep only the last 50 logs
+            return newLogs.length > 50 ? newLogs.slice(newLogs.length - 50) : newLogs;
+          });
           break;
       }
     };
@@ -236,6 +254,35 @@ export default function Dashboard() {
         </GlassCard>
 
       </div>
+
+      {/* VIRTUAL SERIAL MONITOR */}
+      <GlassCard className="p-4 bg-black/90 border-white/10 flex flex-col h-64">
+        <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+          <div className="flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-neon-blue" />
+            <span className="text-xs font-mono text-neon-blue uppercase tracking-widest">Virtual Serial Monitor</span>
+          </div>
+          <button 
+            onClick={() => setLogs([])}
+            className="text-[10px] font-mono text-white/30 hover:text-white/80 transition-colors uppercase"
+          >
+            Clear
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto space-y-1 pr-2">
+          {logs.length === 0 ? (
+            <div className="text-[10px] font-mono text-white/20 italic">Awaiting incoming logs...</div>
+          ) : (
+            logs.map((log, i) => (
+              <div key={i} className="font-mono text-[10px] sm:text-xs">
+                <span className="text-white/40">[{log.time}]</span>{" "}
+                <span className="text-neon-green">{log.msg}</span>
+              </div>
+            ))
+          )}
+          <div ref={logsEndRef} />
+        </div>
+      </GlassCard>
 
       {/* SYSTEM STATUS */}
       <GlassCard className="p-4 bg-black/90 border-white/5">

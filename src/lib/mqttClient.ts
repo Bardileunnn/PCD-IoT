@@ -21,6 +21,7 @@ export const MQTT_TOPICS = {
   BEBAN: "pcd/monitoring/beban",
   STATUS: "pcd/monitoring/status",
   KONTROL_ENGINE: "pcd/kontrol/engine",
+  LOGS: "pcd/monitoring/logs",
 } as const;
 
 // Buat koneksi MQTT
@@ -49,6 +50,7 @@ mqttClient.on("connect", () => {
     MQTT_TOPICS.KIPAS,
     MQTT_TOPICS.BEBAN,
     MQTT_TOPICS.STATUS,
+    MQTT_TOPICS.LOGS,
   ];
 
   topics.forEach((topic) => {
