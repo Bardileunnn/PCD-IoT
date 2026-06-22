@@ -3,7 +3,7 @@ import { Shell } from "@/components/layout/shell";
 import { GlassCard } from "@/components/ui/glass-card";
 import { NeonButton } from "@/components/ui/neon-button";
 import { StatGauge } from "@/components/ui/stat-gauge";
-import { Power, Activity, Cpu, Zap, Thermometer, Fan, Wifi, WifiOff, Terminal } from "lucide-react";
+import { Power, Activity, Zap, Thermometer, Fan, Wifi, WifiOff, Terminal } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { mqttClient, MQTT_TOPICS, useMqttStatus } from "@/lib/mqttClient";
@@ -12,7 +12,6 @@ export default function Dashboard() {
 
   const [agvStatus, setAgvStatus] = useState<"STOPPED" | "RUNNING">("STOPPED");
   const [battery, setBattery] = useState(0);
-  const [load, setLoad] = useState(0);
 
   // ESP Monitoring States
   const [temperature, setTemperature] = useState(0);
@@ -37,9 +36,6 @@ export default function Dashboard() {
       const v = msg.toString();
 
       switch (topic) {
-        case MQTT_TOPICS.BEBAN:
-          setLoad(+v);
-          break;
         case MQTT_TOPICS.BATERAI:
           // ESP32 now publishes percentage (0-100), matching dashboard directly
           setBattery(+v);
