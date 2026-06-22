@@ -158,17 +158,8 @@ export default function Dashboard() {
         </div>
       </GlassCard>
 
-      {/* GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        {/* LoadCell */}
-        <GlassCard className="p-8 flex flex-col items-center justify-center min-h-[320px] bg-black/60 relative">
-          <div className="absolute top-4 left-4 flex items-center gap-2">
-            <Cpu className="w-4 h-4 text-neon-blue/50" />
-            <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">Sensor: LoadCell</span>
-          </div>
-          <StatGauge value={parseFloat(load.toFixed(2))} max={5} unit="KG" label="Load Weight" color="blue" />
-        </GlassCard>
+      {/* GRID (Neat 2x2 layout for 4 items) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
         {/* Temperature */}
         <GlassCard className="p-8 flex flex-col items-center justify-center min-h-[320px] bg-black/60 relative">
